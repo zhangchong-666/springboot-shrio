@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.springbootshrio.mapper.PermissionsMapper">
+  <resultMap id="BaseResultMap" type="com.zc.springbootshrio.entity.Permissions">
+    <!--@mbg.generated-->
+    <!--@Table permissions-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="permissions_name" jdbcType="VARCHAR" property="permissionsName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, permissions_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from permissions
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from permissions
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zc.springbootshrio.entity.Permissions" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into permissions (permissions_name)
+    values (#{permissionsName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zc.springbootshrio.entity.Permissions" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into permissions
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="permissionsName != null">
+        permissions_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="permissionsName != null">
+        #{permissionsName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zc.springbootshrio.entity.Permissions">
+    <!--@mbg.generated-->
+    update permissions
+    <set>
+      <if test="permissionsName != null">
+        permissions_name = #{permissionsName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zc.springbootshrio.entity.Permissions">
+    <!--@mbg.generated-->
+    update permissions
+    set permissions_name = #{permissionsName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="getPermissions" resultType="com.zc.springbootshrio.entity.Permissions">
+  select * from permissions where id in (select pid from role_permissions where rid in(select rid from user_role where uid = #{id}))
+</select>
+</mapper>
